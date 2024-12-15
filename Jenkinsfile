@@ -32,6 +32,15 @@ pipeline {
         }
       }
     }
+    stage('Test Credentials') {
+      steps {
+        script {
+          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:aws-credentials']]) {
+            sh 'aws sts get-caller-identity'
+          }
+        }
+      }
+    }
     // Commenting out the Trivy Scan stage
     // stage('Scan with Trivy') {
     //   steps {
