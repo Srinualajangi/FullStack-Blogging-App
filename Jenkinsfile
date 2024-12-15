@@ -24,13 +24,14 @@ pipeline {
       steps {
         script {
           dockerImage = docker.build("${env.ECR_REPO_NAME}:${env.BUILD_ID}")
+          env.DOCKER_IMAGE_NAME = "${env.ECR_REPO_NAME}:${env.BUILD_ID}"
         }
       }
     }
     stage('Scan with Trivy') {
       steps {
         script {
-          sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${dockerImage.imageName}"
+          sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
         }
       }
     }
