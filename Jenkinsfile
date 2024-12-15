@@ -5,7 +5,7 @@ pipeline {
   }
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
-    IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
+    IMAGE_TAG = "${env.BUILD_ID}"
     TRIVY_CACHE_DIR = '/mnt/trivy-cache'
     XDG_CACHE_HOME = '/mnt/trivy-cache'
     AWS_ACCOUNT_ID = '971422672236'
@@ -27,9 +27,9 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          dockerImage = docker.build("${env.ECR_REPO_NAME}:${env.BUILD_ID}")
-          dockerImage.tag("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.BUILD_ID}")
-          env.DOCKER_IMAGE_NAME = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.BUILD_ID}"
+          dockerImage = docker.build("${env.ECR_REPO_NAME}:${env.IMAGE_TAG}")
+          dockerImage.tag("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.IMAGE_TAG}")
+          env.DOCKER_IMAGE_NAME = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.IMAGE_TAG}"
         }
       }
     }
