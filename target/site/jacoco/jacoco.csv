@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+twitter-app,com.example.twitterapp,TwitterAppApplication,5,3,0,0,2,1,1,1,1,1
+twitter-app,com.example.twitterapp.config,SecurityConfig,0,114,0,0,0,26,0,10,0,10
+twitter-app,com.example.twitterapp.config,CustomUserDetailsService,33,6,2,0,5,3,3,1,2,1
+twitter-app,com.example.twitterapp.config,CustomUserDetails,29,0,0,0,12,0,8,0,8,0
+twitter-app,com.example.twitterapp.service,UserServiceImpl,21,6,0,0,3,3,2,1,2,1
+twitter-app,com.example.twitterapp.service,PostService,13,6,0,0,4,3,2,1,2,1
+twitter-app,com.example.twitterapp.controller,UserController,36,6,2,0,10,3,4,1,3,1
+twitter-app,com.example.twitterapp.controller,PostController,42,9,0,0,11,4,3,1,3,1
+twitter-app,com.example.twitterapp.model,User,38,3,0,0,14,2,8,1,8,1
+twitter-app,com.example.twitterapp.model,Post,28,3,0,0,12,1,8,1,8,1

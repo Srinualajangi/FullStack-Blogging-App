@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">twitter-app</a> &gt; <a href="index.source.html" class="el_package">com.example.twitterapp.controller</a> &gt; <span class="el_source">PostController.java</span></div><h1>PostController.java</h1><pre class="source lang-java linenums">package com.example.twitterapp.controller;
+
+import com.example.twitterapp.config.CustomUserDetails;
+import com.example.twitterapp.model.Post;
+import com.example.twitterapp.service.PostService;
+import com.example.twitterapp.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+
+@Controller
+public class PostController {
+
+    private final PostService postService;
+    private final UserService userService;
+
+<span class="fc" id="L23">    public PostController(PostService postService, UserService userService) {</span>
+<span class="fc" id="L24">        this.postService = postService;</span>
+<span class="fc" id="L25">        this.userService = userService;</span>
+<span class="fc" id="L26">    }</span>
+
+    @GetMapping(&quot;/&quot;)
+    public String home(Model model) {
+<span class="nc" id="L30">        List&lt;Post&gt; posts = postService.findAll();</span>
+<span class="nc" id="L31">        model.addAttribute(&quot;posts&quot;, posts);</span>
+<span class="nc" id="L32">        return &quot;home&quot;;</span>
+    }
+
+    @GetMapping(&quot;/add&quot;)
+    public String showAddPostForm(Model model) {
+<span class="nc" id="L37">        model.addAttribute(&quot;post&quot;, new Post());</span>
+<span class="nc" id="L38">        return &quot;add&quot;;</span>
+    }
+
+    @PostMapping(&quot;/add&quot;)
+    public String addPost(@ModelAttribute Post post) {
+<span class="nc" id="L43">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L44">        CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();</span>
+<span class="nc" id="L45">        var existingUser = userService.findByUsername(user.getUsername());</span>
+<span class="nc" id="L46">        post.setUser(existingUser);</span>
+<span class="nc" id="L47">        postService.save(post);</span>
+<span class="nc" id="L48">        return &quot;redirect:/&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

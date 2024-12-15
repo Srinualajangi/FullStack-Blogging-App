@@ -1,7 +1,9 @@
 pipeline {
   agent any
+  tools {
+    maven 'Maven 3.8.8' // Name of the Maven installation configured in Jenkins
+  }
   environment {
-    AWS_DEFAULT_REGION = 'us-east-2'
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
   }
@@ -9,6 +11,13 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'main', url: 'https://github.com/Srinualajangi/FullStack-Blogging-App.git', credentialsId: 'github-credentials'
+      }
+    }
+    stage('Build') {
+      steps {
+        script {
+          sh 'mvn clean package'
+        }
       }
     }
     stage('Build Docker Image') {
@@ -46,3 +55,4 @@ pipeline {
     }
   }
 }
+
