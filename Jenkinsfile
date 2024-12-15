@@ -6,6 +6,10 @@ pipeline {
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
+    TRIVY_CACHE_DIR = '/mnt/trivy-cache'
+    XDG_CACHE_HOME = '/mnt/trivy-cache'
+    AWS_ACCOUNT_ID = '971422672236'
+    AWS_DEFAULT_REGION = 'us-east-2'
   }
   stages {
     stage('Checkout') {
