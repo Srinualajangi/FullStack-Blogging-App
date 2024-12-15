@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    AWS_DEFAULT_REGION = 'us-west-2'
+    AWS_DEFAULT_REGION = 'us-east-2'
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
   }
