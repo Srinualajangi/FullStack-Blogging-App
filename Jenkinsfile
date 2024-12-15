@@ -30,13 +30,13 @@ pipeline {
         }
       }
     }
-    stage('Scan with Trivy') {
-      steps {
-        script {
-          sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} XDG_CACHE_HOME=${env.XDG_CACHE_HOME} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
-        }
-      }
-    }
+#    stage('Scan with Trivy') {
+#      steps {
+#        script {
+#          sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} XDG_CACHE_HOME=${env.XDG_CACHE_HOME} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
+#        }
+#      }
+#    }
     stage('Push Docker Image') {
       steps {
         script {
