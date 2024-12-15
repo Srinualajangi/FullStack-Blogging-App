@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    maven 'Maven 3.8.8' // Name of the Maven installation configured in Jenkins
+    maven 'Maven 3.8.8'
   }
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
@@ -28,7 +28,15 @@ pipeline {
       steps {
         script {
           dockerImage = docker.build("${env.ECR_REPO_NAME}:${env.BUILD_ID}")
-          env.DOCKER_IMAGE_NAME = "${env.ECR_REPO_NAME}:${env.BUILD_ID}"
+          dockerImage.tag("${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.BUILD_ID}")
+          env.DOCKER_IMAGE_NAME = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPO_NAME}:${env.BUILD_ID}"
+        }
+      }
+    }
+    stage('Verify Docker Image') {
+      steps {
+        script {
+          sh 'docker images'
         }
       }
     }
@@ -37,7 +45,7 @@ pipeline {
         script {
           withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:aws-credentials']]) {
             sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 971422672236.dkr.ecr.us-east-2.amazonaws.com'
-            sh "docker push 971422672236.dkr.ecr.us-east-2.amazonaws.com/my-ecr-repo:${env.BUILD_ID}"
+            sh "docker push ${env.DOCKER_IMAGE_NAME}"
           }
         }
       }
