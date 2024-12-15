@@ -30,7 +30,7 @@ pipeline {
     stage('Scan with Trivy') {
       steps {
         script {
-          sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL ${dockerImage.id}'
+          sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${dockerImage.imageName}"
         }
       }
     }
