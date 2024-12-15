@@ -6,8 +6,6 @@ pipeline {
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
-#    TRIVY_CACHE_DIR = '/mnt/trivy-cache'
-#    XDG_CACHE_HOME = '/mnt/trivy-cache'
   }
   stages {
     stage('Checkout') {
