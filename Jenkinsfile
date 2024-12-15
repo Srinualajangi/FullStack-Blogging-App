@@ -6,7 +6,7 @@ pipeline {
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
-    TRIVY_CACHE_DIR = '/mnt/trivy-cache'
+    TRIVY_CONFIG_FILE = '/mnt/trivy-cache/trivy.yaml'
   }
   stages {
     stage('Checkout') {
@@ -32,7 +32,7 @@ pipeline {
     stage('Scan with Trivy') {
       steps {
         script {
-          sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
+          sh "trivy image --config ${env.TRIVY_CONFIG_FILE} --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
         }
       }
     }
