@@ -37,7 +37,7 @@ pipeline {
         script {
           withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:aws-credentials']]) {
             sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 971422672236.dkr.ecr.us-east-2.amazonaws.com'
-            sh 'docker push 971422672236.dkr.ecr.us-east-2.amazonaws.com/my-ecr-repo:${env.BUILD_ID}'
+            sh "docker push 971422672236.dkr.ecr.us-east-2.amazonaws.com/my-ecr-repo:${env.BUILD_ID}"
           }
         }
       }
