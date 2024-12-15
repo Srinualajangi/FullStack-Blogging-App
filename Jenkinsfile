@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/Srinualajangi/FullStack-Blogging-App.git', credentialsId: 'github-ssh-key'
+        git branch: 'main', url: 'https://github.com/Srinualajangi/FullStack-Blogging-App.git', credentialsId: 'github-credentials'
       }
     }
     stage('Build Docker Image') {
