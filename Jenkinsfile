@@ -32,28 +32,12 @@ pipeline {
         }
       }
     }
-    stage('Test Credentials') {
-      steps {
-        script {
-          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:aws-credentials']]) {
-            sh 'aws sts get-caller-identity'
-          }
-        }
-      }
-    }
-    // Commenting out the Trivy Scan stage
-    // stage('Scan with Trivy') {
-    //   steps {
-    //     script {
-    //       sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} XDG_CACHE_HOME=${env.XDG_CACHE_HOME} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
-    //     }
-    //   }
-    // }
     stage('Push Docker Image') {
       steps {
         script {
-          docker.withRegistry("https://${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com", 'ecr:aws-credentials') {
-            dockerImage.push()
+          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:aws-credentials']]) {
+            sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 971422672236.dkr.ecr.us-east-2.amazonaws.com'
+            sh 'docker push 971422672236.dkr.ecr.us-east-2.amazonaws.com/my-ecr-repo:${env.BUILD_ID}'
           }
         }
       }
