@@ -32,7 +32,7 @@ pipeline {
     stage('Scan with Trivy') {
       steps {
         script {
-          sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
+          sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
         }
       }
     }
