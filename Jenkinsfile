@@ -6,8 +6,8 @@ pipeline {
   environment {
     ECR_REPO_NAME = 'my-ecr-repo'
     IMAGE_TAG = "my-ecr-repo:${env.BUILD_ID}"
-    TRIVY_CACHE_DIR = '/mnt/trivy-cache'
-    XDG_CACHE_HOME = '/mnt/trivy-cache'
+#    TRIVY_CACHE_DIR = '/mnt/trivy-cache'
+#    XDG_CACHE_HOME = '/mnt/trivy-cache'
   }
   stages {
     stage('Checkout') {
@@ -30,13 +30,14 @@ pipeline {
         }
       }
     }
-#    stage('Scan with Trivy') {
-#      steps {
-#        script {
-#          sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} XDG_CACHE_HOME=${env.XDG_CACHE_HOME} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
-#        }
-#      }
-#    }
+    // Commenting out the Trivy Scan stage
+    // stage('Scan with Trivy') {
+    //   steps {
+    //     script {
+    //       sh "TRIVY_CACHE_DIR=${env.TRIVY_CACHE_DIR} XDG_CACHE_HOME=${env.XDG_CACHE_HOME} trivy image --exit-code 1 --severity HIGH,CRITICAL ${env.DOCKER_IMAGE_NAME}"
+    //     }
+    //   }
+    // }
     stage('Push Docker Image') {
       steps {
         script {
